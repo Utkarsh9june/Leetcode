@@ -31,12 +31,30 @@ class Solution {
     return dp[ind][buy][cap] = profit;
 }
 
-    int maxProfit(int k, int n, int A[]) {
-        vector<vector<vector<int>>> dp(n,
-                                    vector<vector<int>> 
-                                            (2,vector<int>(k+1,-1)));
+    int maxProfit(int k, int n, int Arr[]) {
+        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(k+1,0)));
+        
+        for(int ind=n-1;ind>=0;ind--)
+        {
+            for(int buy=0;buy<=1;buy++)
+            {
+                for(int cap=1;cap<=k;cap++)
+                {
+                    int profit;
     
-    return getAns(A,n,0,0,k,dp);
+                    if(buy==0){// We can buy the stock
+                        profit = max(0+dp[ind+1][0][cap],-Arr[ind] + dp[ind+1][1][cap]);
+                    }
+    
+                    if(buy==1){// We can sell the stock
+                        profit = max(0+dp[ind+1][1][cap],Arr[ind] + dp[ind+1][0][cap-1]);
+                    }
+    
+                    dp[ind][buy][cap] = profit;
+                }
+            }
+        }
+        return dp[0][0][k];
     }
 };
 
