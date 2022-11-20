@@ -8,25 +8,24 @@ using namespace std;
 class Solution
 {
     public:
-    int f(int ind,int prev,int n,int arr[],vector<vector<int>> &dp)
+    int longestSubsequence(int n, int arr[])
     {
-        if(ind==n)
-        return 0;
+        vector<vector<int>> dp(n+1,vector<int>(n+1,0));
         
-        if(dp[ind][prev+1]!=-1)
-        return dp[ind][prev+1];
+        for(int ind=n-1;ind>=0;ind--)
+        {
+            for(int prev=ind-1;prev>=-1;prev--)
+            {
+                int nt=dp[ind+1][prev+1];
+                int t=0;
+                if(prev==-1||arr[ind]>arr[prev])
+                t=1+dp[ind+1][ind+1];
         
-        int nt=f(ind+1,prev,n,arr,dp);
-        int t=0;
-        if(prev==-1||arr[ind]>arr[prev])
-        t=1+f(ind+1,ind,n,arr,dp);
+                dp[ind][prev+1]=max(t,nt);
+            }
+        }
         
-        return dp[ind][prev+1]=max(t,nt);
-    }
-    int longestSubsequence(int n, int a[])
-    {
-        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
-        return f(0,-1,n,a,dp);
+        return dp[0][0];
     }
 };
 
