@@ -21,9 +21,7 @@ public:
         {
             sum+=arr[i];
             if(mp.find(sum)!=mp.end())
-            {
-                cnt+=mp[sum];
-                mp[sum]++;
+                cnt+=mp[sum]++;
             }
             else
             mp[sum]=1;
